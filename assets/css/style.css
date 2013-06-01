@@ -2,6 +2,22 @@
     margin: 0 auto;
 }
 
+#loading{
+    display:none;
+    width:40px;
+    height:40px;
+    background:url(../img/preloader.gif) no-repeat center center;
+    position:fixed;
+    top:50%;
+    left:50%;
+    margin:-20px 0 0 -20px;
+    z-index:999;
+}
+
+#loading.show{
+    display:block;
+}
+
 .photo-box{
     overflow: hidden;
     position: relative;

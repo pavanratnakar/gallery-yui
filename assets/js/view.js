@@ -41,6 +41,7 @@ YUI.add('bpp-gallery-view',function(Y){
                 }
                 var img = new Image();
                 img.onload = function(){
+                    Y.one('#loading').removeClass('show');
                     t.get('container').one('#photo-box-'+e.model.get('id'))
                         .addClass('show');
                 };
@@ -64,6 +65,7 @@ YUI.add('bpp-gallery-view',function(Y){
         * @return {void}
         */
         render: function(){
+            Y.one('#loading').addClass('show');
             this.get('container').show();
         },
         /**
