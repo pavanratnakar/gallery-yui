@@ -46,12 +46,12 @@ YUI.add('bpp-gallery-view',function(Y){
                 };
                 img.src = e.model.get('thumb');
                 t.get('container').append(Y.Lang.sub(Y.one('#bbp-gallery-template').getHTML(), {
-                    id : e.model.get('id'),
-                    type : defaults.types[order[temp]-1],
-                    alt : e.model.get('href'),
-                    src : e.model.get('thumb'),
-                    href : e.model.get('href'),
-                    desc : e.model.get('title')
+                    'id' : e.model.get('id'),
+                    'type' : defaults.types[order[temp]-1],
+                    'alt' : e.model.get('href'),
+                    'src' : e.model.get('thumb'),
+                    'href' : e.model.get('href'),
+                    'desc' : e.model.get('title')
                 }));
                 temp++;
                 if (temp === order.length) {
