@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>YUI Flickr Style Gallery</title>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.1.0/pure-min.css" />
+        <link href="assets/css/style.css" rel="stylesheet" />
+    </head>
+    <body>
+        <div id="wrapper">
+            <div id="loading"></div>
+            <div class="content pure-u-1">
+                <div id="gallery" class="pure-g-r"></div>
+            </div>
+        </div>
+        <script type="text/x-template" id="bbp-gallery-template">
+            <div id="photo-box-{id}" class="pure-u-{type} photo-box">
+                <a href="{href}" target="_blank">
+                    <img src="{src}" alt="{alt}">
+                </a>
+                <aside class="photo-box-caption">
+                    {desc}
+                </aside>
+            </div>
+        </script>
+        <!-- JavaScript Includes -->
+        <script src="http://yui.yahooapis.com/3.10.1/build/yui/yui-min.js"></script>
+        <script src="assets/js/model.js"></script>
+        <script src="assets/js/model-list.js"></script>
+        <script src="assets/js/view.js"></script>
+        <script>
+            var getRandomInt = function(min,max) {
+                return Math.floor(Math.random() * (max - min + 1)) + min;
+            }
+
+            var generateRandomSumArray = function(min,max,sum,temp=0,array=[]) {
+                if (temp < sum) {
+                    var number = getRandomInt(min,max);
+                    if (number + temp < sum) {
+                        temp = temp + number;
+                        array.push(number);
+                        return generateRandomSumArray(min,max,sum,temp,array);
+                    } else {
+                        array.push(sum-temp);
+                        return array;
+                    }
+                }
+            }
+
+            YUI().use('bpp-gallery-view','bpp-gallery-model-list','jsonp',function (Y) {
+
+                var q = 'http://api.flickr.com/services/rest/?method=flickr.photos.search&api_key={apiKey}&privacy_filter={privacyFilter}&safe_search={safe_search}&text={text}&per_page={perPage}&accuracy={accuracy}&sort={sort}&format=json',
+                    query = Y.Lang.sub(q+'&jsoncallback={callback}',{
+                        apiKey: 'febe9ecc58779b03d17ec7c0828eca68',
+                        text : 'world',
+                        privacyFilter : 1,
+                        safe_search : 1,
+                        perPage : 50,
+                        accuracy : 10,
+                        sort : 'interestingness-desc'
+                    });
+                    modelList = new Y.bpp.Gallery.Model.List();
+
+
+                Y.jsonp(query, function(res){
+                    Y.each(res.photos.photo,function(p,i){
+                        modelList.add({
+                            'thumb' : 'http://farm'+ p.farm +'.staticflickr.com/'+ p.server +'/'+ p.id +'_'+ p.secret +'_z.jpg',
+                            'href' : 'http://farm'+ p.farm +'.staticflickr.com/'+ p.server +'/'+ p.id +'_'+ p.secret +'.jpg',
+                            'title' : p.title,
+                            'id' : p.id
+                        })
+                    });
+                });
+
+                var view = new Y.bpp.Gallery.View({
+                    container : '#gallery',
+                    list : modelList
+                }).render();
+            });
+        </script>
+    </body>
+</html>
