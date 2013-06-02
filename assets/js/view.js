@@ -5,7 +5,7 @@
 YUI.add('bpp-gallery-view',function(Y){
 
     var defaults = {
-        types : ['1-5','2-5','3-5']
+        types : ['1-5','2-5']
     };
 
     var GalleryView = function(config){
@@ -25,6 +25,15 @@ YUI.add('bpp-gallery-view',function(Y){
         // Specify delegated DOM events to attach to the srpl-business container.
         events:{},
         /**
+        * @method showImage
+        * @return {void}
+        */
+        showImage: function(model){
+            Y.one('#loading').removeClass('show');
+            this.get('container').one('#photo-box-'+model.get('id'))
+                .addClass('show');
+        },
+        /**
         * The initializer function will run when a view is instantiated
         * @method initializer
         * params {hash} config
@@ -41,9 +50,13 @@ YUI.add('bpp-gallery-view',function(Y){
                 }
                 var img = new Image();
                 img.onload = function(){
-                    Y.one('#loading').removeClass('show');
-                    t.get('container').one('#photo-box-'+e.model.get('id'))
-                        .addClass('show');
+                    t.showImage(e.model);
+                };
+                img.onabort = function(){
+                    t.showImage(e.model);
+                };
+                img.onerror = function(){
+                    t.showImage(e.model);
                 };
                 img.src = e.model.get('thumb');
                 t.get('container').append(Y.Lang.sub(Y.one('#bbp-gallery-template').getHTML(), {

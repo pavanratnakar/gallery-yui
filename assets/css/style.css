@@ -1,3 +1,25 @@
+body {
+    font: 13px/1.231 "Helvetica Neue",Helvetica,Arial,sans-serif;
+    color: #DDDDDD;
+    background-color: #070707;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    text-align: center;
+}
+
+.header h2{
+    font-weight: normal;
+    font-size: 2em;
+    margin: 0.83em 0 0.1em;
+}
+
+.header h3{
+    margin: 0.3em 0 0.83em;
+}
+
 #wrapper {
     margin: 0 auto;
 }
